@@ -1,9 +1,22 @@
-
-<h1>IBOutlet连出来的视图属性为什么可以被设置成weak?</h1>
-
-<div class="entry">
-
-        
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Huii's Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Huii's Blog</h1>
+      <h2 class="project-tagline"></h2>
+    </section>
+    <section class="main-content">
+	<h1>IBOutlet连出来的视图属性为什么可以被设置成weak?</h1>
+	<div class="entry">
 		<div class="copyright-area">原文出处： <a target="_blank" href="http://www.jianshu.com/p/15f9dd024dc2">Martin_wjl </a>&nbsp;&nbsp;&nbsp;</div><div>
 <h3>答案在前</h3>
 <p>使用storyboard创建的viewController，那么会有一个叫 _topLevelObjectsToKeepAliveFromStoryboard的私有数组强引用所有top level的对象，同时top level对象强引用所有子对象，那么vc没必要再强引用top level对象的子对象。</p>
@@ -51,3 +64,12 @@ The top-level objects typically include only the windows, menubars, and custom c
 <a href="https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8B%EF%BC%89.md" target="_blank"><strong>招聘一个靠谱iOS</strong></a></p>
 </div>
 </div>
+
+      <footer class="site-footer">
+
+        <span class="site-footer-credits">本文由Huii所创, GitHub提供.</span>
+      </footer>
+
+    </section>
+  </body>
+</html>
