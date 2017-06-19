@@ -1,1 +1,86 @@
 
+<h1>IBOutlet连出来的视图属性为什么可以被设置成weak?</h1>
+
+<div class="entry">
+
+        
+		<div class="copyright-area">原文出处： <a target="_blank" href="http://www.jianshu.com/p/15f9dd024dc2">Martin_wjl </a>&nbsp;&nbsp;&nbsp;</div><div>
+<h3>答案在前</h3>
+<p>使用storyboard创建的viewController，那么会有一个叫 _topLevelObjectsToKeepAliveFromStoryboard的私有数组强引用所有top level的对象，同时top level对象强引用所有子对象，那么vc没必要再强引用top level对象的子对象。</p>
+<p>好吧！我最初看完之后没理解什么意思，然后查看了stackoverflow和apple doc，把思路阐述一下，如有理解的错误希望指正。</p>
+<h3>构建过程</h3>
+<p>什么是top level对象？apple doc给出的答案如下</p>
+<blockquote><p>The top-level objects are the subset of these objects that do not have a parent object.<br>
+The top-level objects typically include only the windows, menubars, and custom controller objects that you add to the nib file. (Objects such as File’s Owner, First Responder, and Application are placeholder objects and not considered top-level objects.)</p></blockquote>
+<p>那么我们在Storyboard创建一个控件的引用关系是怎样的呢？</p>
+<p>以UIButton为例：UIViewController-&gt;UIView-&gt;UIButton</p>
+<p>如果我们在vc中这样写</p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
+
+		<div id="crayon-59472d98a6cef931575119" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important; margin-top: -18px; display: none;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">    @IBOutlet weak var bu: UIButton!</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1;">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 13px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-59472d98a6cef931575119-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 13px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-59472d98a6cef931575119-1"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">@</span><span class="crayon-e">IBOutlet </span><span class="crayon-e">weak </span><span class="crayon-t">var</span><span class="crayon-h"> </span><span class="crayon-v">bu</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">UIButton</span><span class="crayon-o">!</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0005 seconds] -->
+<p>他们之间的引用关系用图表示如下：</p>
+<div><img alt="" src="http://jbcdn2.b0.upaiyun.com/2016/03/5f5fef26ea7d3eb2dd997e21d1254758.png"><p></p>
+<div>Paste_Image.png</div>
+</div>
+<p>viewController强引用view对象，同时view强引用button对象，那么你声明属性的时候使用weak就可以了。（觉得Strong也可以，但是完全没必要）</p>
+<p>每次我们在SB上创建子控件的时候，我们其实都将它加到view tree上，它的parrent view拥有它的强引用。</p>
+<h3>释放过程呢</h3>
+<p>那么内存释放过程是怎样的呢？其实不管声明的属性是强引用还是弱引用，在控制器消失的时候，这个属性消失，View消失，subViews消失，控件也就消失了。</p>
+<div><img alt="" src="http://jbcdn2.b0.upaiyun.com/2016/03/991548553310caf42ee1a48a1a9e50e6.png"><p></p>
+<div>Paste_Image.png</div>
+</div>
+<div><img alt="" src="http://jbcdn2.b0.upaiyun.com/2016/03/a6417df8305315a4f7c37418bd073966.png"><p></p>
+<div>Paste_Image.png</div>
+</div>
+<h3>参考内容</h3>
+<p><a href="http://stackoverflow.com/questions/7678469/should-iboutlets-be-strong-or-weak-under-arc" target="_blank"><strong>Should IBOutlets be strong or weak under ARC?</strong></a><br>
+<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/LoadingResources/CocoaNibs/CocoaNibs.html#//apple_ref/doc/uid/10000051i-CH4-SW6" target="_blank"><strong>developer library</strong></a><br>
+<a href="https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8B%EF%BC%89.md" target="_blank"><strong>招聘一个靠谱iOS</strong></a></p>
+</div>
+
+        
+        
+        
+    <div class="post-adds">
+        <span data-post-id="84091" class=" btn-bluet-bigger href-style vote-post-up   register-user-only "><i class="fa  fa-thumbs-o-up"></i> <h10 id="84091votetotal">1</h10> 赞</span>
+        <span data-book-type="1" data-site-id="12" data-item-id="84091" data-item-type="1" class=" btn-bluet-bigger href-style bookmark-btn  register-user-only "><i class="fa fa-bookmark-o  "></i>  收藏</span>
+
+                    <a href="#article-comment"><span class="btn-bluet-bigger href-style hide-on-480"><i class="fa fa-comments-o"></i>  评论</span></a>
+        
+        
+        
+        <!-- JiaThis Button BEGIN -->
+        <div class="jiathis_style_24x24" style="display: inline-flex; position: relative; margin: 0; clear: both;float: right;">
+            <a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jtico jtico_tsina"></span></a>
+            <a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jtico jtico_weixin"></span></a>
+            <a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jtico jtico_qzone"></span></a>
+            <a class="jiathis_button_fb hide-on-480" title="分享到Facebook"><span class="jiathis_txt jtico jtico_fb"></span></a>
+            <a href="http://www.jiathis.com/share?uid=1745061" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+        </div>
+
+    </div>
+
+
+
+
+        <!-- BEGIN #author-bio -->
+
+
+<!-- END #author-bio -->
+	</div>
