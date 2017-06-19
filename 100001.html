@@ -45,15 +45,15 @@ The top-level objects typically include only the windows, menubars, and custom c
 		</div>
 <!-- [Format Time: 0.0005 seconds] -->
 <p>他们之间的引用关系用图表示如下：</p>
-<div><img alt="" src="http://jbcdn2.b0.upaiyun.com/2016/03/5f5fef26ea7d3eb2dd997e21d1254758.png"><p></p>
+<div><img alt="" src="/images/100001_1.png"><p></p>
 </div>
 <p>viewController强引用view对象，同时view强引用button对象，那么你声明属性的时候使用weak就可以了。（觉得Strong也可以，但是完全没必要）</p>
 <p>每次我们在SB上创建子控件的时候，我们其实都将它加到view tree上，它的parrent view拥有它的强引用。</p>
 <h3>释放过程呢</h3>
 <p>那么内存释放过程是怎样的呢？其实不管声明的属性是强引用还是弱引用，在控制器消失的时候，这个属性消失，View消失，subViews消失，控件也就消失了。</p>
-<div><img alt="" src="http://jbcdn2.b0.upaiyun.com/2016/03/991548553310caf42ee1a48a1a9e50e6.png"><p></p>
+<div><img alt="" src="/images/100001_2.png"><p></p>
 </div>
-<div><img alt="" src="http://jbcdn2.b0.upaiyun.com/2016/03/a6417df8305315a4f7c37418bd073966.png"><p></p>
+<div><img alt="" src="/images/100001_3.png"><p></p>
 </div>
 <h3>参考内容</h3>
 <p><a href="http://stackoverflow.com/questions/7678469/should-iboutlets-be-strong-or-weak-under-arc" target="_blank"><strong>Should IBOutlets be strong or weak under ARC?</strong></a><br>
