@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Huii's Blog</title>
+    <title>IBOutlet连出来的视图属性为什么可以被设置成weak?</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -30,11 +30,8 @@ The top-level objects typically include only the windows, menubars, and custom c
 <p>如果我们在vc中这样写</p><!-- Crayon Syntax Highlighter v2.7.1.1 -->
 
 		<div id="crayon-59472d98a6cef931575119" class="crayon-syntax crayon-theme-github crayon-font-monaco crayon-os-mac print-yes notranslate" data-settings=" minimize scroll-always" style="margin-top: 12px; margin-bottom: 12px; font-size: 13px !important; line-height: 15px !important; height: auto;">
-		
-			<div class="crayon-toolbar" data-settings=" show" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><span class="crayon-title"></span>
-			<div class="crayon-tools" style="font-size: 13px !important;height: 19.5px !important; line-height: 19.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="切换是否显示行编号"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-expand-button" title="点击展开代码" style="display: none;"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-copy-button" title="复制代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon" style="background-size: 48px 128px; background-image: url(&quot;http://ios.jobbole.com/wp-content/plugins/crayon-syntax-highlighter/css/images/toolbar/buttons@2x.png&quot;);"></div></div></div></div>
 			<div class="crayon-info" style="min-height: 18.2px !important; line-height: 18.2px !important; margin-top: -18px; display: none;"></div>
-			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;">    @IBOutlet weak var bu: UIButton!</textarea></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 13px !important; line-height: 15px !important; z-index: 0; opacity: 0;"> @IBOutlet weak var bu: UIButton!</textarea></div>
 			<div class="crayon-main" style="position: relative; z-index: 1;">
 				<table class="crayon-table">
 					<tbody><tr class="crayon-row">
