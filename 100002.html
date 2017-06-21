@@ -88,15 +88,13 @@
 
 <p>如前问所述，Malloc 的内存都是  Resident dirty 的，但事实上并非如此，比如：</p>
 
-<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">char *p = valloc(2 * 4096);
+<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"></td><td class="code"><pre><code class=""><span class="line">char *p = valloc(2 * 4096);
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
 <p>此时会在虚拟内存里申请两份 4096 字节的内存，但由于申请后没有使用，操作系统不会真正为刚申请的内存空间分配对应的物理内存空间，因此此时该内存空间处于 Nonresident 状态。如果对 p[0] 赋值：</p>
 
-<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">p[0] = 1;</span></code></pre></td></tr></tbody></table></div></figure>
+<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"></td><td class="code"><pre><code class=""><span class="line">p[0] = 1;</span></code></pre></td></tr></tbody></table></div></figure>
 
 
 <p>此时 P[0] 会被加载到物理内存上，由此变成 Resident dirty 状态，同理如果对 p[1] 赋值也一样。</p>
@@ -108,14 +106,12 @@
 
 <p>一个文件通过如果下述 mmap 方式加载：</p>
 
-<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">NSData *data = [NSData dataWithContentsOfMappedFile:file];char *p = (char *)[data bytes];</span></code></pre></td></tr></tbody></table></div></figure>
+<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"></td><td class="code"><pre><code class=""><span class="line">NSData *data = [NSData dataWithContentsOfMappedFile:file];char *p = (char *)[data bytes];</span></code></pre></td></tr></tbody></table></div></figure>
 
 
 <p>此时文件由于未被使用，因此也仅仅是在虚拟内存中，操作系统并没有将其映射到物理里，因此所属 Page 的状态是 Nonresident。如果调用以下代码：</p>
 
-<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class=""><span class="line">printf("%c", p[0]);</span></code></pre></td></tr></tbody></table></div></figure>
+<figure class="code"><div class="highlight"><table><tbody><tr><td class="gutter"></td><td class="code"><pre><code class=""><span class="line">printf("%c", p[0]);</span></code></pre></td></tr></tbody></table></div></figure>
 
 
 <p>此时由于该文件的 p[0] 部分被使用，操作系统就会将 p[0] 部分加载到物理内存中，又因为 p 对应的存储区域是一个 mmap 方式加载的只读文件，因此 p[0] 对应的 Page 就是 Resident clean 的，而 p[1] 往后的部分由于仍然未被使用，Page 的状态不变。</p>
