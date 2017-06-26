@@ -1,1 +1,1 @@
-ifyer.cn
+ifyer.com
